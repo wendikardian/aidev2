@@ -1,0 +1,1 @@
+Tokenization is the structured process of converting a sentence into an individual collection of elements called tokens. It is also used to understand the importance of each of the words with respect to the sentence. These so-called tokens can be words, numbers, or punctuation marks.
