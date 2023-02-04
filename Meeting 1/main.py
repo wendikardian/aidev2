@@ -2,11 +2,9 @@ import cv2
 import numpy as np
 import imutils
 import easyocr
-import pytesseract
-import textract
-import keras_ocr
 
-img = cv2.imread('images/7.jpg')
+
+img = cv2.imread('images/1.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 bfilter = cv2.bilateralFilter(gray, 11, 17, 17)
@@ -34,22 +32,7 @@ cropped_image = gray[x1:x2+1, y1:y2+1]
 
 reader = easyocr.Reader(['en'])
 result = reader.readtext(cropped_image)
-# result = pytesseract.image_to_string(new_image, lang='eng')
-# result = textract.process('new_image')
-
-# print(keras_ocr)
-# predictor = keras_ocr.predictor()
-# predictor = keras_ocr.pipeline.Pipeline()
-
-# Extract text from the image
-# result = predictor.recognize([cropped_image])
-
 text = result[0][-2]
-# text = result
-# print(text)
-
-# import sys 
-# print(sys.version)
 res = cv2.putText(img, text, (approx[0][0][0], 
 approx[1][0][1]+60),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 res = cv2.rectangle(img, tuple(approx[0][0]), 
