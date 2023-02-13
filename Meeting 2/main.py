@@ -5,14 +5,10 @@ import argparse
 import imutils
 import cv2
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True )
-args = vars(ap.parse_args())
-
 print("Load the model ....")
 model = load_model("handwriting.model")
 
-image = cv2.imread(args["image"])
+image = cv2.imread("images/2.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
@@ -63,5 +59,6 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
     cv2.putText(image, label, (x - 10, y - 10),
     cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
 
-cv2.imshow("Image", image)
+# cv2.imshow("Image", image)
+cv2.imshow("Image", blurred)
 cv2.waitKey(0)
