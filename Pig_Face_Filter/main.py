@@ -1,7 +1,8 @@
 import cv2
 import mediapipe as mp
 from math import hypot
-cap = cv2.VideoCapture("vid1.mp4")
+# cap = cv2.VideoCapture("vid1.mp4")
+cap = cv2.VideoCapture(0)
 nose_img = cv2.imread('pig_nose.png')
 cap.set(3, 640) #width
 cap.set(4, 480) #height
@@ -34,7 +35,7 @@ while True:
             centernosex = 0
             centernosey = 0
             for lm_id, lm in enumerate(face_landmarks.landmark):
-                h, w, c = rgb.shape
+                h, w, c = rgb.shape      
                 x, y = int(lm.x * w), int(lm.y * h)
                 if lm_id == 49:
                     leftnosex, leftnosey = x, y
@@ -57,10 +58,17 @@ while True:
             pig_nose_gray = cv2.cvtColor(pig_nose, cv2.COLOR_BGR2GRAY)
             _, nose_mask = cv2.threshold(
             pig_nose_gray, 25, 255, cv2.THRESH_BINARY_INV)
-            no_nose = cv2.bitwise_and(nose_area, nose_area, mask=nose_mask)
-            final_nose = cv2.add(no_nose, pig_nose)
-            frame[ top_left[1]: top_left[1]+nose_height,
-            top_left[0]: top_left[0]+nose_width ] = final_nose
+            try :
+                no_nose = cv2.bitwise_and(nose_area, nose_area, mask=nose_mask)
+                final_nose = cv2.add(no_nose, pig_nose)
+                frame[ top_left[1]: top_left[1]+nose_height,
+                top_left[0]: top_left[0]+nose_width ] = final_nose
+            except : 
+                pass
+            # no_nose = cv2.bitwise_and(nose_area, nose_area, mask=nose_mask)
+            # final_nose = cv2.add(no_nose, pig_nose)
+            # frame[ top_left[1]: top_left[1]+nose_height,
+            # top_left[0]: top_left[0]+nose_width ] = final_nose
 
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
