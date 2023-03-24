@@ -2,11 +2,13 @@ import cv2
 import FaceMeshDetector as fmd
 detector = fmd.FaceMesh()
 
-cap = cv2.VideoCapture("assets/vid1.mp4")
+# cap = cv2.VideoCapture("assets/vid1.mp4")
+cap = cv2.VideoCapture(0)
 cap.set(3,1280)
 cap.set(4,960)
 left_eye = cv2.imread('assets/eye1.png')
 right_eye = cv2.imread('assets/eye2.png')
+# smoke_animation = cv2.VideoCapture('assets/smoke_animation.mp4')
 smoke_animation = cv2.VideoCapture('assets/smoke_animation.mp4')
 smoke_frame_counter = 0
 
