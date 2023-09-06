@@ -1,13 +1,13 @@
 import mediapipe as mp
 import cv2
-mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
+mp_drawing = mp.solutions.drawing_utils
 cap = cv2.VideoCapture(0)
 
 with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
     while True:
         ret, frame = cap.read()
-        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = holistic.process(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         mp_drawing.draw_landmarks(image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION)

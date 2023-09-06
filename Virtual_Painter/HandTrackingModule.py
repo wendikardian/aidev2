@@ -24,7 +24,7 @@ class handDetector():
 
 
         # Step 13, copy the step from no 2 and 7 paste it on __init__ method, but dont forget to add self
-        # Step 2. 
+        # Step 2.
         # Define the tracker for hands that we are going to use for tracking a hand from mediapipe
         self.mpHands = mp.solutions.hands #add self first -> so it means that we're going to declare it as global property
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.modelComplexity, self.detectionConfidence, self.trackConfidence) #Add the parameter
@@ -81,7 +81,7 @@ class handDetector():
     # Step 21
     # Create new method called findPosition
     def findPosition(self, frame, handNo=0, draw=True):
-        
+
         # Step 22
         # Create a list that will contain the landmark position
         self.lmList = []
@@ -90,7 +90,7 @@ class handDetector():
         # Add Condition
 
         if self.results.multi_hand_landmarks:
-            # Detect the number by create new variable called myHand 
+            # Detect the number by create new variable called myHand
             myHand = self.results.multi_hand_landmarks[handNo]
 
 
@@ -106,7 +106,7 @@ class handDetector():
                 h, w, c = frame.shape #try to get height, width, channel
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 # Try to print it
-                # If we print it, it will the display the id of every landmark to every coordinates on the frame 
+                # If we print it, it will the display the id of every landmark to every coordinates on the frame
                 # print(id, cx, cy)
 
                 # Add to the list
@@ -116,9 +116,9 @@ class handDetector():
                 # if id == 0:
                 if draw:
                     cv2.circle(frame, (cx,cy), 7, (255,0,0), cv2.FILLED)
-        
+
         return self.lmList
-    
+
     def fingersUp(self):
         # Declare a list called fingers
         fingers = []
@@ -131,7 +131,7 @@ class handDetector():
         else:
             fingers.append(0)
 
-        
+
         # Condition for 4 Fingers
         for id in range(1,5):
             if self.lmList[tipIds[id]][2] < self.lmList[tipIds[id] -2] [2]:
@@ -140,9 +140,9 @@ class handDetector():
                 fingers.append(0)
 
         return fingers
-        
- 
-   
+
+
+
 
 
 
@@ -161,7 +161,7 @@ def main():
 
     cap = cv2.VideoCapture(0)
 
-    
+
 
     while True:
         res, frame = cap.read()
@@ -187,7 +187,7 @@ def main():
         cv2.putText(frame, str(int(fps)), (10,70), cv2.FONT_HERSHEY_COMPLEX, 1, (0,255,0), 2)
 
         cv2.imshow("Frame", frame)
-        
+
         key= cv2.waitKey(1)
         if key == ord('q'):
             break;

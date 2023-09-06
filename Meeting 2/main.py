@@ -1,14 +1,13 @@
 from tensorflow.keras.models import load_model
 from imutils.contours import sort_contours
 import numpy as np
-import argparse
 import imutils
 import cv2
 
 print("Load the model ....")
 model = load_model("handwriting.model")
 
-image = cv2.imread("images/2.jpg")
+image = cv2.imread("images/1.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
@@ -59,6 +58,6 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
     cv2.putText(image, label, (x - 10, y - 10),
     cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
 
-# cv2.imshow("Image", image)
-cv2.imshow("Image", blurred)
+cv2.imshow("Image1", image)
+# cv2.imshow("Image", blurred)
 cv2.waitKey(0)

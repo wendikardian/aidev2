@@ -3,12 +3,23 @@ import numpy as np
 import imutils
 import easyocr
 
+# import sys
+# import codecs
+# sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+# sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+
+import importlib
+import sys
+# sys.setdefaultencoding() does not exist, here!
+# reload(sys)  # Reload does the trick!
+importlib.reload(sys)
+# export PYTHONIOENCODING=utf-8
 
 img = cv2.imread('images/1.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 bfilter = cv2.bilateralFilter(gray, 11, 17, 17)
-edged = cv2.Canny(bfilter, 30, 200) 
+edged = cv2.Canny(bfilter, 30, 200)
 
 keypoints = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 contours = imutils.grab_contours(keypoints)
@@ -30,12 +41,12 @@ new_image = cv2.bitwise_and(img, img, mask=mask)
 (x2, y2) = (np.max(x), np.max(y))
 cropped_image = gray[x1:x2+1, y1:y2+1]
 
-reader = easyocr.Reader(['en'])
+reader = easyocr.Reader(['en'], gpu=False)
 result = reader.readtext(cropped_image)
 text = result[0][-2]
-res = cv2.putText(img, text, (approx[0][0][0], 
+res = cv2.putText(img, text, (approx[0][0][0],
 approx[1][0][1]+60),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
-res = cv2.rectangle(img, tuple(approx[0][0]), 
+res = cv2.rectangle(img, tuple(approx[0][0]),
 tuple(approx[2][0]), (0,255,0),3)
 
 # cv2.imshow("Image", cv2.cvtColor(res, cv2.COLOR_BGR2RGB))

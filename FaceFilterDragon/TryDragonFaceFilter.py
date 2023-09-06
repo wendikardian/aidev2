@@ -40,7 +40,7 @@ while True:
                 # frame = detector.masking(frame, smoke_frame,
                 #                          face_landmarks, 'MOUTH',
                 #                          detector.mpFaceMesh.FACEMESH_LIPS)
-                frame = detector.masking(frame, smoke_frame, face_landmarks, 
+                frame = detector.masking(frame, smoke_frame, face_landmarks,
                                 'MOUTH', detector.mpFaceMesh.FACEMESH_LIPS)
     cv2.imshow('Frame', frame)
     # cv2.imshow('Frame2', frame_face_mesh)

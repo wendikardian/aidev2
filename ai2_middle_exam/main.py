@@ -30,21 +30,25 @@ while True:
                     centerx, centery = x, y
             mouth_width = int(hypot(rightx - leftx, righty - lefty * 1.2))
             mouth_height = int(mouth_width * 0.8)
-            if (mouth_width and mouth_height )!= 0:
+            if (mouth_width and mouth_height) != 0:
                 dog_mouth = cv2.resize(mouth_img, (mouth_width, mouth_height))
-            top_left = (int(centerx - mouth_width/2), int(centery - mouth_height/2))
-            bottom_right = (int(centerx+mouth_width/2), int(centery+mouth_height/2))
-            mouth_area = frame[top_left[1]: top_left[1]+mouth_height, top_left[0]: top_left[0]+mouth_width]
+            top_left = (int(centerx - mouth_width/2),
+                        int(centery - mouth_height/2))
+            bottom_right = (int(centerx+mouth_width/2),
+                            int(centery+mouth_height/2))
+            mouth_area = frame[top_left[1]: top_left[1] +
+                               mouth_height, top_left[0]: top_left[0]+mouth_width]
             dog_mouth_gray = cv2.cvtColor(dog_mouth, cv2.COLOR_BGR2GRAY)
-            _, dog_mask = cv2.threshold(dog_mouth_gray, 25, 255, cv2.THRESH_BINARY_INV)
-            no_mouth = cv2.bitwise_and(mouth_area, mouth_area, mask = dog_mask)
+            _, dog_mask = cv2.threshold(
+                dog_mouth_gray, 25, 255, cv2.THRESH_BINARY_INV)
+            no_mouth = cv2.bitwise_and(mouth_area, mouth_area, mask=dog_mask)
             final_mouth = cv2.add(no_mouth, dog_mouth)
-            frame[top_left[1]: top_left[1] + mouth_height,top_left[0] : top_left[0] + mouth_width] = final_mouth
+            frame[top_left[1]: top_left[1] + mouth_height,
+                  top_left[0]: top_left[0] + mouth_width] = final_mouth
 
-            
     cv2.imshow("Frame", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    
+
 cap.release()
 cv2.destroyWindow()

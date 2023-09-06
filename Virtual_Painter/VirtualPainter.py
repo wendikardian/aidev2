@@ -4,8 +4,8 @@
 import cv2
 import numpy as np
 import time
-import os 
-import HandTrackingModule as htm 
+import os
+import HandTrackingModule as htm
 
 
 # Step 2. List the directory that we're going use to collect the image file
@@ -32,12 +32,12 @@ header = overlayList[0]
 drawColor = (0,0,255)
 brushThickness = 7
 eraserThickness = 40
-xp, yp = 0,0 
+xp, yp = 0,0
 
 # Step 14
 # We will declare a new canvas for drawing
 # Instead of drawing on the layout, we can create a new canvas
-imgCanvas = np.zeros((720, 1280, 3), np.uint8) 
+imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
 
 cap = cv2.VideoCapture(0)
@@ -51,8 +51,8 @@ while True:
     res, frame = cap.read()
 
     # Step 7. Flip the images
-    # Make it easier and accurate for drawing 
-    frame = cv2.flip(frame, 1) 
+    # Make it easier and accurate for drawing
+    frame = cv2.flip(frame, 1)
 
     # Step 6
     # Find Hand Landmark
@@ -63,12 +63,12 @@ while True:
 
 
     if len(lmList) != 0:
-        
+
         # print(lmList)
 
         # Tip of the index and middle finger
         x1, y1 = lmList[8][1:] # utnuk menemukan ujung jari telunjuk
-        x2, y2 = lmList[12][1:] #untuk jari tengah 
+        x2, y2 = lmList[12][1:] #untuk jari tengah
 
         # Step 8
         # Check if the fingers are up
@@ -82,7 +82,7 @@ while True:
         if fingers[1] and fingers[2]:
             # Step 17,
             # add this code, so whatever hand is on selection mode, reset it to zero again
-            xp, yp = 0,0 
+            xp, yp = 0,0
             print("Selection mode")
             # If on selection mode there is rectangle on the finger
             cv2.rectangle(frame, (x1,y1-25), (x2, y2+25), drawColor, cv2.FILLED)
@@ -102,7 +102,7 @@ while True:
                 elif x1> 1000:
                     header = overlayList[3]
                     drawColor = (0,0,0)
-        
+
 
         # Step 10
         if fingers[1] and fingers[2] == False:
@@ -110,7 +110,7 @@ while True:
             # If on selection mode there is circle on the finger
             cv2.circle(frame, (x1, y1), 15, drawColor, cv2.FILLED)
             # the logic by drawing circle
-            # Logic at drawing, if you on drawing mode u will draw a circle (if move), 
+            # Logic at drawing, if you on drawing mode u will draw a circle (if move),
             # Otherwise, if you dont move your finger it will not draw a circle
 
             # Other than that, you can draw using a line'
@@ -130,7 +130,7 @@ while True:
                 cv2.line(imgCanvas, (xp, yp), (x1,y1), drawColor, brushThickness)
             xp, yp = x1, y1 #keep updating if the finger move, so the previous will contain the last coordinates
 
-            # As you can see if you just add this code, it will just draw and the remove it as soon as possible, 
+            # As you can see if you just add this code, it will just draw and the remove it as soon as possible,
             # We will keep it forever, unless it's deleted using eraser
 
     # Step 16
@@ -158,8 +158,7 @@ while True:
     # untuk melihat hasil gambar
     cv2.imshow("Canvas", imgCanvas)
 
-  
+
     if cv2.waitKey(10) & 0xFF == ord('q'):
         break
 
- 
