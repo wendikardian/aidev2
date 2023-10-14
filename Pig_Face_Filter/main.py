@@ -4,8 +4,8 @@ from math import hypot
 # cap = cv2.VideoCapture("vid1.mp4")
 cap = cv2.VideoCapture(0)
 nose_img = cv2.imread('pig_nose.png')
-cap.set(3, 640) #width
-cap.set(4, 480) #height
+cap.set(3, 640)  # width
+cap.set(4, 480)  # height
 mpDraw = mp.solutions.drawing_utils
 mpDrawingStyles = mp.solutions.drawing_styles
 mpFaceMesh = mp.solutions.face_mesh
@@ -44,26 +44,26 @@ while True:
                 if lm_id == 5:
                     centernosex, centernosey = x, y
             nose_width = int(hypot(rightnosex-leftnosex,
-            rightnosey-leftnosey*1.2))
+                                   rightnosey-leftnosey*1.2))
             nose_height = int(nose_width*0.8)
             if (nose_width and nose_height) != 0:
                 pig_nose = cv2.resize(nose_img,
-                (nose_width, nose_height))
+                                      (nose_width, nose_height))
             top_left = (int(centernosex-nose_width/2),
-            int(centernosey-nose_height/2))
+                        int(centernosey-nose_height/2))
             bottom_right = (int(centernosex+nose_width/2),
-            int(centernosey+nose_height/2))
-            nose_area = frame[ top_left[1]: top_left[1]+nose_height,
-            top_left[0]: top_left[0]+nose_width]
+                            int(centernosey+nose_height/2))
+            nose_area = frame[top_left[1]: top_left[1]+nose_height,
+                              top_left[0]: top_left[0]+nose_width]
             pig_nose_gray = cv2.cvtColor(pig_nose, cv2.COLOR_BGR2GRAY)
             _, nose_mask = cv2.threshold(
-            pig_nose_gray, 25, 255, cv2.THRESH_BINARY_INV)
-            try :
+                pig_nose_gray, 25, 255, cv2.THRESH_BINARY_INV)
+            try:
                 no_nose = cv2.bitwise_and(nose_area, nose_area, mask=nose_mask)
                 final_nose = cv2.add(no_nose, pig_nose)
-                frame[ top_left[1]: top_left[1]+nose_height,
-                top_left[0]: top_left[0]+nose_width ] = final_nose
-            except :
+                frame[top_left[1]: top_left[1]+nose_height,
+                      top_left[0]: top_left[0]+nose_width] = final_nose
+            except:
                 pass
             # no_nose = cv2.bitwise_and(nose_area, nose_area, mask=nose_mask)
             # final_nose = cv2.add(no_nose, pig_nose)
