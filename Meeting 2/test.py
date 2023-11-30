@@ -17,35 +17,38 @@ cv2.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
 cnts = sort_contours(cnts, method="left-to-right")[0]
 # draw contours
-for c in cnts:
-    (x, y, w, h) = cv2.boundingRect(c)
-    if (w >= 5 and w <= 150) and (h >= 15 and h <= 120):
-        # using drawcontours
-        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
-        # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+# for c in cnts:
+#     (x, y, w, h) = cv2.boundingRect(c)
+#     if (w >= 5 and w <= 150) and (h >= 15 and h <= 120):
+#         # using drawcontours
+#         cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+#         # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 chars = []
 for c in cnts:
     (x, y, w, h) = cv2.boundingRect(c)
     if (w >= 5 and w <= 150) and (h >= 15 and h <= 120):
         roi = gray[y:y + h, x:x + w]
-        thresh = cv2.threshold(roi, 0, 255,
-        cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        # show roi img
+        thresh = cv2.threshold(roi, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        cv2.imshow("ROI", thresh)
+
         (tH, tW) = thresh.shape
         if tW > tH:
             thresh = imutils.resize(thresh, width=32)
         else:
             thresh = imutils.resize(thresh, height=32)
-
         (tH, tW) = thresh.shape
         dX = int(max(0, 32 - tW) / 2.0)
         dY = int(max(0, 32 - tH) / 2.0)
+
 
         padded = cv2.copyMakeBorder(thresh, top=dY, bottom=dY,left=dX, right=dX, borderType=cv2.BORDER_CONSTANT,value=(0, 0, 0))
         padded = cv2.resize(padded, (32, 32))
 
         padded = padded.astype("float32") / 255.0
         padded = np.expand_dims(padded, axis=-1)
+
         chars.append((padded, (x, y, w, h)))
 
 boxes = [b[1] for b in chars]

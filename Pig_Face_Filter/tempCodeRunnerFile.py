@@ -1,2 +1,0 @@
-
-            rightnosey = 0

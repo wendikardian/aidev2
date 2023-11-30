@@ -41,10 +41,13 @@ while True:
             dog_mouth_gray = cv2.cvtColor(dog_mouth, cv2.COLOR_BGR2GRAY)
             _, dog_mask = cv2.threshold(
                 dog_mouth_gray, 25, 255, cv2.THRESH_BINARY_INV)
-            no_mouth = cv2.bitwise_and(mouth_area, mouth_area, mask=dog_mask)
-            final_mouth = cv2.add(no_mouth, dog_mouth)
-            frame[top_left[1]: top_left[1] + mouth_height,
-                  top_left[0]: top_left[0] + mouth_width] = final_mouth
+            try:
+                no_mouth = cv2.bitwise_and(mouth_area, mouth_area, mask=dog_mask)
+                final_mouth = cv2.add(no_mouth, dog_mouth)
+                frame[top_left[1]: top_left[1] + mouth_height,
+                    top_left[0]: top_left[0] + mouth_width] = final_mouth
+            except:
+                pass
 
     cv2.imshow("Frame", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
